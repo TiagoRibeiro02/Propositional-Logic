@@ -1,5 +1,7 @@
 open F_parser
 
+parse "stdin"
+
 type formula =
 | Var of variable
 | Not of formula
