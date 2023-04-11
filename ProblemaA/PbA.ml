@@ -1,6 +1,6 @@
 open F_parser
 
-parse "stdin"
+Let() = parse "stdin"
 
 type formula =
 | Var of variable
@@ -11,6 +11,8 @@ type formula =
 | Equiv of formula * formula
 | True
 | False
+
+
 
 val parse: string -> formula list option
 
