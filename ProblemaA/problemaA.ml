@@ -12,15 +12,17 @@ type formula =
   | Or of formula * formula
   | Implies of formula * formula
   | Equiv of formula * formula
+  | Nor of formula * formula
   | True
   | False
 
 let rec to_nor = function
-  | Var f -> f
+  | Nor (a, b) -> Nor (to_nor a, to_nor b)
+  | Var f -> Var f
   | Not f -> Nor(to_nor f, to_nor f)
   | And (a, b) -> Nor(Nor(to_nor a, to_nor a), Nor(to_nor b, to_nor b))
   | Or (a, b) -> Nor(Nor(to_nor a, to_nor b), Nor(to_nor a, to_nor b))
-  | Implies (a, b) -> Not(Nor(Not a, b))
+  | Implies (a, b) -> to_nor Not(Nor((Not a), b))
   | Equiv (a, b) -> to_nor And(Implies(a, b), Implies(b, a))
 
 let rec formula_to_string (f : formula) : string =
@@ -34,8 +36,6 @@ let rec formula_to_string (f : formula) : string =
   | True -> "TRUE"
   | False -> "FALSE"
 
-(* val parse: string -> formula list option *)
-
 let f_list = parse "stdin"
 
 let form = 
@@ -46,6 +46,3 @@ let form =
 let () =
   let result = to_nor form in
   formula_to_string result |> print_endline
-
-
-
