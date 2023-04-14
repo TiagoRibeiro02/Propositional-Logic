@@ -17,7 +17,7 @@ type formula =
 
 type nor_formula =
   | Var of variable
-  | Nor of formula * formula
+  | Nor of nor_formula * nor_formula
 
 let rec to_nor (f : formula) : nor_formula = 
   match f with
@@ -27,8 +27,8 @@ let rec to_nor (f : formula) : nor_formula =
   | Or (a, b) -> Nor(Nor(to_nor a, to_nor b), Nor(to_nor a, to_nor b))
   | Implies (a, b) -> to_nor (Not (Nor((Not a), b)))
   | Equiv (a, b) -> to_nor (And(Implies(a, b), Implies(b, a)))
-  | False f -> Nor(to_nor f, (Nor(to_nor f, to_nor f)))
-  | True f -> to_nor (Not(False f))
+  | False -> Nor(to_nor f, (Nor(to_nor f, to_nor f)))
+  | True -> to_nor (Not(False f))
 
 let rec formula_to_string (f : formula) : string =
   match f with
