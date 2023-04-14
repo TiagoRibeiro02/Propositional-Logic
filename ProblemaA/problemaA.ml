@@ -19,7 +19,8 @@ type nor_formula =
   | Var of variable
   | Nor of formula * formula
 
-let rec to_nor = function
+let rec to_nor (f : formula) : nor_formula = 
+  match f with
   | Nor (a, b) -> Nor (to_nor a, to_nor b)
   | Var f -> Var f
   | Not f -> Nor(to_nor f, to_nor f)
