@@ -21,7 +21,6 @@ type nor_formula =
 
 let rec to_nor (f : formula) : nor_formula = 
   match f with
-  | Nor (a, b) -> Nor (to_nor a, to_nor b)
   | Var f -> Var f
   | Not f -> Nor(to_nor f, to_nor f)
   | And (a, b) -> Nor(Nor(to_nor a, to_nor a), Nor(to_nor b, to_nor b))
