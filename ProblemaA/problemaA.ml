@@ -9,11 +9,11 @@ type nor_formula =
   | Var of string
   | Nor of formula * formula
 
-let rec smallest_variable form smallest_so_far =
+let rec smallest_variable form aux =
   match form with
-  | Var v -> if v<smallest_so_far then smallest_so_far = v else smallest_so_far = smallest_so_far
-  | Expression(f, g) -> smallest_variable f smallest_so_far; smallest_variable g smallest_so_far
-  (* if ('Z')<(smallest_so_far='Z') *)
+  | Var v -> if v < aux then aux = v else aux = aux
+  | Implies(f, g) -> smallest_variable f aux; smallest_variable g aux
+  (* if ('Z')<(aux='Z') *)
 
 let smallest = smallest_variable form 'Z';;
 
