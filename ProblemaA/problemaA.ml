@@ -12,8 +12,12 @@ type nor_formula =
 let rec smallest_variable form aux =
   match form with
   | Var v -> if v < aux then aux = v else aux = aux
+  | Not f -> smallest_variable f aux
+  | And(f, g) -> smallest_variable f aux; smallest_variable g aux
+  | Or(f, g) -> smallest_variable f aux; smallest_variable g aux
   | Implies(f, g) -> smallest_variable f aux; smallest_variable g aux
-  (* if ('Z')<(aux='Z') *)
+  | Equiv(f, g) -> smallest_variable f aux; smallest_variable g aux
+  
 
 let smallest = smallest_variable form 'Z';;
 
