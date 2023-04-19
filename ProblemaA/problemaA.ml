@@ -34,7 +34,7 @@ let rec to_nor (f : formula_t) (smallest: string) : nor_formula =
 let rec formula_to_string (f : nor_formula) : string =
   match f with
   | Nor (f1, f2) -> Printf.sprintf "(%s %% %s)" (formula_to_string f1) (formula_to_string f2)
-  | V f -> Printf.sprintf "(%s)" (string f)
+  | V f -> Printf.sprintf "(%s)" (f)
 
 let f_list = parse "stdin"
 
