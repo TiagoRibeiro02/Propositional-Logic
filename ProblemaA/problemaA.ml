@@ -19,7 +19,7 @@ type nor_formula =
   | Var of string
   | Nor of formula * formula
 
-let rec smallest_variable form aux =
+let rec smallest_variable (form : formula) aux =
   match form with
   | Var v -> if v < aux then aux = v else aux = aux
   | Not f -> smallest_variable f aux
@@ -29,7 +29,7 @@ let rec smallest_variable form aux =
   | Equiv(f, g) -> smallest_variable f aux; smallest_variable g aux
   
 
-let smallest = smallest_variable form 'Z';;
+let smallest = smallest_variable (form : formula) 'Z';;
 
 let rec to_nor (f : formula) : nor_formula = 
   match f with
