@@ -1,9 +1,19 @@
 open F_parser
 (*
 comando para executar:
-ocamlopt -I f_parser/ f_parser.cmxa problemaA.ml -o problemaA.exe
+ocamlopt -I f_parser/ f_parser.cmxa problemaA.ml -o problemaA
 *)
 type variable = string
+
+type formula =
+| Var of variable
+| Not of formula
+| And of formula * formula
+| Or of formula * formula
+| Implies of formula * formula
+| Equiv of formula * formula
+| True
+| False
 
 type nor_formula =
   | Var of string
