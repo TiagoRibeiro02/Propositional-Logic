@@ -17,6 +17,8 @@ let rec smallest_variable form aux =
   | Or(f, g) -> let acc = smallest_variable f aux in smallest_variable g acc
   | Implies(f, g) -> let acc = smallest_variable f aux in smallest_variable g acc
   | Equiv(f, g) -> let acc = smallest_variable f aux in smallest_variable g acc
+  | False -> aux
+  | True -> aux
 
 let rec to_nor (f : formula_t) (smallest: string) : nor_formula = 
   match f with
