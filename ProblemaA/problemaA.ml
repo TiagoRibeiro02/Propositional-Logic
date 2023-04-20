@@ -11,7 +11,7 @@ type nor_formula =
 
 let rec smallest_variable expression aux =
   match expression with
-  | Var v -> if v<aux then smallest_variable expression v else smallest_variable expression aux
+  | Var v -> if v<aux then v else aux
   | Not f -> smallest_variable f aux
   | And(f, g) -> let acc = smallest_variable f aux in smallest_variable g acc
   | Or(f, g) -> let acc = smallest_variable f aux in smallest_variable g acc
