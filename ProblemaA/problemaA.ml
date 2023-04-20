@@ -3,7 +3,7 @@ open F_parser
 comando para executar:
 ocamlopt -I f_parser/ f_parser.cmxa problemaA.ml -o problemaA.exe
 *)
-type variable = string
+(*type variable = string*)
 
 type nor_formula =
   | V of string
