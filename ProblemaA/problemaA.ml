@@ -24,7 +24,7 @@ let rec to_nor (f : formula_t) (smallest: string) : nor_formula =
   | Var f -> V f
   | Not f ->
     (match f with
-     | Or(a, b) -> Nor(to_nor (Not a) smallest, to_nor (Not b) smallest)
+     | Or(a, b) -> Nor(to_nor a smallest, to_nor b smallest)
      | _ -> Nor(to_nor f smallest, to_nor f smallest))
   | And (a, b) -> Nor(Nor(to_nor a smallest, to_nor a smallest), Nor(to_nor b smallest, to_nor b smallest))
   | Or (a, b) -> Nor(Nor(to_nor a smallest, to_nor b smallest), Nor(to_nor a smallest, to_nor b smallest))
