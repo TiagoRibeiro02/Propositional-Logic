@@ -22,12 +22,14 @@ let rec smallest_variable expression aux =
 let rec to_nor (f : formula_t) (smallest: string) : nor_formula = 
   match f with
   | Var f -> V f
-  | Not f -> Nor(to_nor f smallest, to_nor f smallest)
+  | Not f ->
+    (match f with
+     | Or(a, b) -> Nor(to_nor (Not a) smallest, to_nor (Not b) smallest)
+     | _ -> Nor(to_nor f smallest, to_nor f smallest))
   | And (a, b) -> Nor(Nor(to_nor a smallest, to_nor a smallest), Nor(to_nor b smallest, to_nor b smallest))
   | Or (a, b) -> Nor(Nor(to_nor a smallest, to_nor b smallest), Nor(to_nor a smallest, to_nor b smallest))
   | Implies (a, b) -> to_nor (Or(Not(a), b)) smallest
   | Equiv (a, b) -> to_nor (And(Implies(a, b), Implies(b, a))) smallest
-  | Not(Or(a, b)) -> Nor(to_nor a smallest, to_nor b smallest)
   | False -> Nor(V smallest, (Nor(V smallest, V smallest)))
   | True -> to_nor (Not(False)) smallest
 
