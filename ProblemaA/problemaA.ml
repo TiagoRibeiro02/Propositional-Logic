@@ -3,15 +3,15 @@
   Tiago Ribeiro a46346
 *)
 
-
 open F_parser
 
-(*Definicao o tipo nor_formula que representa uma formula Nor e a variavel*)
+(* Definicao do tipo nor_formula que representa uma formula Nor e a variavel *)
 type nor_formula =
   | V of string
   | Nor of nor_formula * nor_formula
 
-(*Esta funcao recebe um auxiliar(que inicialmente e sempre o maior valor "Z") e compara ate achar a menor variavel na expressao, a qual vai ser usada para representar False.*)
+(* Esta funcao recursiva terminal recebe um auxiliar 'aux' (que inicialmente começa a 'Z') e compara recursivamente
+ate achar a menor variavel na expressao, a qual vai ser usada para representar False.*)
 let rec smallest_variable expression aux =
   match expression with
   | Var v -> if v<aux then v else aux
@@ -23,7 +23,8 @@ let rec smallest_variable expression aux =
   | False -> aux
   | True -> aux
 
-  (*Esta funcao realiza a transformacao da formula para a forma normal de Nor utilizando as regras de equivalencia logica. E passada a string smallest que foi calculada anteriormente para representar False.*)
+(* Esta funcao recursiva normal realiza a transformacao da formula_t 'f' para a nor_formula, utilizando as regras de
+equivalencia logica. Passa-se ainda a string 'smallest' que foi calculada anteriormente para representar False.*)
 let rec to_nor (f : formula_t) (smallest: string) : nor_formula = 
   match f with
   | Var f -> V f
@@ -38,7 +39,7 @@ let rec to_nor (f : formula_t) (smallest: string) : nor_formula =
   | False -> Nor(V smallest, (Nor(V smallest, V smallest)))
   | True -> to_nor (Not(False)) smallest
 
-(*Transforma a nor_formula em string*)
+(* Transforma a nor_formula 'f' em string *)
 let rec formula_to_string (f : nor_formula) : string =
   match f with
   | Nor (f1, f2) -> Printf.sprintf "(%s %% %s)" (formula_to_string f1) (formula_to_string f2)
@@ -58,18 +59,23 @@ let () =
   formula_to_string result |> print_endline
 
 (*
-Algoritmo de "smallest_variable":
+Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que é a
+variável com a letra menor (exemplo: em And(C,F), smallest=C).
 
-EXEMPLO 1:
-let smallest = smallest_variable AND(B, C) 'Z' =
-let acc = smallest_variable B aux='Z' in smallest_variable C acc
-smallest_variable B aux='Z' = "B"
-smallest_variable C "B"
-= {B}
-logo, AND(B,C) = {B}
------------------------------------------------------------------------------
+Para calcular o 'smallest', vamos utilizar a funcao recursiva terminal "smallest variable".
+A razão porque o enunciado pedia para guardar o 'smallest' vem da necessidade de determinar a variável com letra
+menor, paraque haja homogeneidade de resultados. Portanto, a "determinização" invoca que se determine sempre o
+mesmo resultado.
 
-EXEMPLO 2:
+
+*)
+
+
+
+
+(*
+EXEMPLO do Algoritmo de "smallest_variable":
+
 let smallest = smallest_variable And[C, Or(FALSE, D)] 'Z' =
 let acc = smallest_variable C aux='Z' in smallest_variable (Or(FALSE, D)) acc
 smallest_variable C aux='Z' = "C"
@@ -84,6 +90,7 @@ smallest_variable FALSE aux='Z' = "Z"
 smallest_variable D "Z"
 = {D}
 logo, Or(FALSE, D) = {D}
-
-
 *)
+
+(* recursiva terminal. Determinizacao -> determinar sempre o mesmo resultado. A razao pela necessidade
+de determinar a variavel menor é para que haja homogeneidade de resultados *)
