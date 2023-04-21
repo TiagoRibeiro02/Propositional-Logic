@@ -3,6 +3,10 @@
   Tiago Ribeiro a46346
 *)
 
+(*Fontes consultadas:
+   material da teorica e pratica disponibilizado pelo professor
+   *)
+
 open F_parser
 
 (* Definicao do tipo nor_formula que representa uma formula Nor e a variavel *)
@@ -57,17 +61,18 @@ let () =
   formula_to_string result |> print_endline
 
 (*
-Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que é a variável com a letra menor (exemplo: em And(C,F)smallest=C).
+Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que e a variavel com a letra menor (exemplo: em And(C,F)smallest=C).
 
 Para calcular o 'smallest', vamos utilizar a funcao recursiva terminal "smallest variable".
-A razão porque o enunciado pedia para guardar o 'smallest' vem da necessidade de determinar a variável com letra menor, paraque haja homogeneidade de resultados. Portanto, a "determinização" invoca que se determine sempre o mesmo resultado.
-A "smallest variable" recebe uma expressao 'expression' e um auxiliar 'aux', este que vai comecar sempre em 'Z' por ser a maior letra, a funcao vai "desmontando" a expressao ate chegar a variavel, por fim compara se a variavel e menor que o aux, se for entao devolvera essa variavel, caso contrario devolvera o aux.
+A razão porque o enunciado pedia para guardar o 'smallest' vem da necessidade de determinar a variável com letra menor, para que haja homogeneidade de resultados. Portanto, a "determinização" invoca que se determine sempre o mesmo resultado.
+A "smallest variable" recebe uma expressao 'expression' e um auxiliar 'aux', este que vai comecar sempre em 'Z' por ser a maior letra, a funcao vai "desmontando" a expressao ate chegar a variavel, por fim compara se a variavel e menor que o aux, se for entao devolvera essa variavel, caso contrario devolvera o aux, fazendo isso recursivamente ate todas as variaveis teram sido comparadas, dando no final a mais pequena entre elas.
+No caso do False e do True sempre devolvera aux, porque o mesmo se nao possuir nenhuma outra variavel ficara com o maior valor que e 'Z'.
 
-Em seguida entrara na funcao "to_nor", a qual vai receber a expressao e a 'smallest', esta ultima e passada uma vez que ira ser preciso para fazer a transformacao do False, na funcao vai recursivamente analizar cada expressao dada e no final acabara com uma expressao do tipo 'nor_formula' a qual apenas tera nor e variaveis.
-Na expressao Not, ha o caso de a expressao ser Not(A or B), uma vez que Nor e a negacao de or, simplemente passaria para um Nor(A,B) diferente dos outros casos que usam a expressao mais regular. No caso do False e do True sempre devolvera aux, porque o mesmo se nao possuir nenhuma outra variavel ficara com o maior valor que e "Z".
+Em seguida entrara na funcao "to_nor", a qual vai receber a expressao e a 'smallest', esta ultima e passada uma vez que ira ser preciso para fazer a transformacao do False (e consequentemente do True), a funcao vai recursivamente analizar cada expressao dada, fazendo as transformacoes de cada para nor segundo as regras de equivalencia logica e no final acabara com uma expressao do tipo 'nor_formula' a qual apenas tera nor e variaveis.
+Na expressao Not, ha o caso de a expressao ser Not(A or B), uma vez que Nor e a negacao de or, simplemente passaria para um Nor(A,B) diferente dos outros casos que usam a expressao mais regular.
+No caso de False uma vez que nao e passada nenhuma variavel, sera entapo utilizado a 'smallest' para ser feita a transformacao para nor. 
 
-Por fim entrara na funcao "formula_to_string" a qual recebera a formula 'nor_formula' que apenas contem nor e variaveis, e transformara em string, dando print da mesma.
-
+Por fim entrara na funcao "formula_to_string" a qual recebera a formula 'nor_formula' que apenas contem a expressao em nor e variaveis, e transformara em string, dando print da mesma.
 *)
 
 (*----------------------------------------------------------------------------
