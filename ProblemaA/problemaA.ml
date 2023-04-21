@@ -1,15 +1,17 @@
 (*
-  João Tiago a47817
+  Joao Tiago a47817
   Tiago Ribeiro a46346
 *)
 
 
 open F_parser
 
+(*Definicao o tipo nor_formula que representa uma formula Nor e a variavel*)
 type nor_formula =
   | V of string
   | Nor of nor_formula * nor_formula
 
+(*Esta funcao recebe um auxiliar(que inicialmente e sempre o maior valor "Z") e compara ate achar a menor variavel na expressao, a qual vai ser usada para representar False.*)
 let rec smallest_variable expression aux =
   match expression with
   | Var v -> if v<aux then v else aux
@@ -21,6 +23,7 @@ let rec smallest_variable expression aux =
   | False -> aux
   | True -> aux
 
+  (*Esta funcao realiza a transformacao da formula para a forma normal de Nor utilizando as regras de equivalencia logica. E passada a string smallest que foi calculada anteriormente para representar False.*)
 let rec to_nor (f : formula_t) (smallest: string) : nor_formula = 
   match f with
   | Var f -> V f
@@ -35,7 +38,7 @@ let rec to_nor (f : formula_t) (smallest: string) : nor_formula =
   | False -> Nor(V smallest, (Nor(V smallest, V smallest)))
   | True -> to_nor (Not(False)) smallest
 
-  (*Transforma a formula tranformada em string*)
+(*Transforma a nor_formula em string*)
 let rec formula_to_string (f : nor_formula) : string =
   match f with
   | Nor (f1, f2) -> Printf.sprintf "(%s %% %s)" (formula_to_string f1) (formula_to_string f2)
