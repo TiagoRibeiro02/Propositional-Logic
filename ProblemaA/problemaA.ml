@@ -1,8 +1,10 @@
-open F_parser
 (*
-comando para executar:
-ocamlopt -I f_parser/ f_parser.cmxa problemaA.ml -o problemaA.exe
+  João Tiago a47817
+  Tiago Ribeiro a46346
 *)
+
+
+open F_parser
 
 type nor_formula =
   | V of string
@@ -33,6 +35,7 @@ let rec to_nor (f : formula_t) (smallest: string) : nor_formula =
   | False -> Nor(V smallest, (Nor(V smallest, V smallest)))
   | True -> to_nor (Not(False)) smallest
 
+  (*Transforma a formula tranformada em string*)
 let rec formula_to_string (f : nor_formula) : string =
   match f with
   | Nor (f1, f2) -> Printf.sprintf "(%s %% %s)" (formula_to_string f1) (formula_to_string f2)
