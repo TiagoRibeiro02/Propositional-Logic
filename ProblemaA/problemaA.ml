@@ -10,8 +10,7 @@ type nor_formula =
   | V of string
   | Nor of nor_formula * nor_formula
 
-(* Esta funcao recursiva terminal recebe um auxiliar 'aux' (que inicialmente começa a 'Z') e compara recursivamente
-ate achar a menor variavel na expressao, a qual vai ser usada para representar False.*)
+(* Esta funcao recursiva terminal recebe um auxiliar 'aux' (que inicialmente começa a 'Z') e compara recursivamente ate achar a menor variavel na expressao, a qual vai ser usada para representar False.*)
 let rec smallest_variable expression aux =
   match expression with
   | Var v -> if v<aux then v else aux
@@ -23,8 +22,7 @@ let rec smallest_variable expression aux =
   | False -> aux
   | True -> aux
 
-(* Esta funcao recursiva normal realiza a transformacao da formula_t 'f' para a nor_formula, utilizando as regras de
-equivalencia logica. Passa-se ainda a string 'smallest' que foi calculada anteriormente para representar False.*)
+(* Esta funcao recursiva normal realiza a transformacao da formula_t 'f' para a nor_formula, utilizando as regras de equivalencia logica. Passa-se ainda a string 'smallest' que foi calculada anteriormente para representar False.*)
 let rec to_nor (f : formula_t) (smallest: string) : nor_formula = 
   match f with
   | Var f -> V f
@@ -59,21 +57,20 @@ let () =
   formula_to_string result |> print_endline
 
 (*
-Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que é a
-variável com a letra menor (exemplo: em And(C,F), smallest=C).
+Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que é a variável com a letra menor (exemplo: em And(C,F)smallest=C).
 
 Para calcular o 'smallest', vamos utilizar a funcao recursiva terminal "smallest variable".
-A razão porque o enunciado pedia para guardar o 'smallest' vem da necessidade de determinar a variável com letra
-menor, paraque haja homogeneidade de resultados. Portanto, a "determinização" invoca que se determine sempre o
-mesmo resultado.
+A razão porque o enunciado pedia para guardar o 'smallest' vem da necessidade de determinar a variável com letra menor, paraque haja homogeneidade de resultados. Portanto, a "determinização" invoca que se determine sempre o mesmo resultado.
+A "smallest variable" recebe uma expressao 'expression' e um auxiliar 'aux', este que vai comecar sempre em 'Z' por ser a maior letra, a funcao vai "desmontando" a expressao ate chegar a variavel, por fim compara se a variavel e menor que o aux, se for entao devolvera essa variavel, caso contrario devolvera o aux.
 
+Em seguida entrara na funcao "to_nor", a qual vai receber a expressao e a 'smallest', esta ultima e passada uma vez que ira ser preciso para fazer a transformacao do False, na funcao vai recursivamente analizar cada expressao dada e no final acabara com uma expressao do tipo 'nor_formula' a qual apenas tera nor e variaveis.
+Na expressao Not, ha o caso de a expressao ser Not(A or B), uma vez que Nor e a negacao de or, simplemente passaria para um Nor(A,B) diferente dos outros casos que usam a expressao mais regular. No caso do False e do True sempre devolvera aux, porque o mesmo se nao possuir nenhuma outra variavel ficara com o maior valor que e "Z".
+
+Por fim entrara na funcao "formula_to_string" a qual recebera a formula 'nor_formula' que apenas contem nor e variaveis, e transformara em string, dando print da mesma.
 
 *)
 
-
-
-
-(*
+(*----------------------------------------------------------------------------
 EXEMPLO do Algoritmo de "smallest_variable":
 
 let smallest = smallest_variable And[C, Or(FALSE, D)] 'Z' =
@@ -90,7 +87,4 @@ smallest_variable FALSE aux='Z' = "Z"
 smallest_variable D "Z"
 = {D}
 logo, Or(FALSE, D) = {D}
-*)
-
-(* recursiva terminal. Determinizacao -> determinar sempre o mesmo resultado. A razao pela necessidade
-de determinar a variavel menor é para que haja homogeneidade de resultados *)
+-----------------------------------------------------------------------------*)
