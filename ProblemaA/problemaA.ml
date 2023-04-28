@@ -59,6 +59,7 @@ let smallest = smallest_variable form "Z";;
 let () =
   let result = to_nor form smallest in
   formula_to_string result |> print_endline
+  print_endline (formula_to_string result) 
 
 (*
 Para calcular o "result", vamos inserir a expressão 'form' (que foi dada em input), e o 'smallest', que e a variavel com a letra menor (exemplo: em And(C,F)smallest=C).
